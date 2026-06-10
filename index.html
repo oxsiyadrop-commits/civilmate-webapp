@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CivilMate AI - اپلیکیشن مهندسی عمران</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Vazir', Tahoma, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: white;
+            font-size: 24px;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .menu-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .menu-btn:hover {
+            transform: scale(1.05);
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .result {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .tab-btn {
+            flex: 1;
+            background: #e0e0e0;
+            color: #333;
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏗 CivilMate AI</h1>
+            <p style="color: white;">اپلیکیشن تخصصی مهندسی عمران</p>
+        </div>
+
+        <div class="card">
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="showTab('rebar')">📏 میلگرد</button>
+                <button class="tab-btn" onclick="showTab('concrete')">🏗 بتن</button>
+                <button class="tab-btn" onclick="showTab('beam')">📐 تیرآهن</button>
+                <button class="tab-btn" onclick="showTab('calc')">🧮 ماشین حساب</button>
+            </div>
+
+            <!-- تب میلگرد -->
+            <div id="rebar-tab" class="tab-content active">
+                <h3>📏 محاسبه وزن میلگرد</h3>
+                <div class="input-group">
+                    <label>قطر (میلی‌متر)</label>
+                    <input type="number" id="rebar-diameter" placeholder="مثال: 14">
+                </div>
+                <div class="input-group">
+                    <label>طول (متر)</label>
+                    <input type="number" id="rebar-length" placeholder="مثال: 12">
+                </div>
+                <div class="input-group">
+                    <label>تعداد</label>
+                    <input type="number" id="rebar-count" placeholder="مثال: 5" value="1">
+                </div>
+                <button onclick="calcRebar()">محاسبه</button>
+                <div class="result" id="rebar-result">وزن: --- kg</div>
+            </div>
+
+            <!-- تب بتن -->
+            <div id="concrete-tab" class="tab-content">
+                <h3>🏗 محاسبه حجم بتن</h3>
+                <div class="input-group">
+                    <label>طول (متر)</label>
+                    <input type="number" id="concrete-length" placeholder="مثال: 5">
+                </div>
+                <div class="input-group">
+                    <label>عرض (متر)</label>
+                    <input type="number" id="concrete-width" placeholder="مثال: 4">
+                </div>
+                <div class="input-group">
+                    <label>ارتفاع (متر)</label>
+                    <input type="number" id="concrete-height" placeholder="مثال: 0.3">
+                </div>
+                <button onclick="calcConcrete()">محاسبه</button>
+                <div class="result" id="concrete-result">حجم: --- m³</div>
+            </div>
+
+            <!-- تب تیرآهن -->
+            <div id="beam-tab" class="tab-content">
+                <h3>📐 محاسبه بار تیرآهن</h3>
+                <div class="input-group">
+                    <label>دهانه (متر)</label>
+                    <input type="number" id="beam-span" placeholder="مثال: 6">
+                </div>
+                <div class="input-group">
+                    <label>عرض مقطع (سانتی‌متر)</label>
+                    <input type="number" id="beam-width" placeholder="مثال: 30">
+                </div>
+                <div class="input-group">
+                    <label>ارتفاع مقطع (سانتی‌متر)</label>
+                    <input type="number" id="beam-height" placeholder="مثال: 50">
+                </div>
+                <button onclick="calcBeam()">محاسبه</button>
+                <div class="result" id="beam-result">بار مرده: --- kg</div>
+            </div>
+
+            <!-- تب ماشین حساب -->
+            <div id="calc-tab" class="tab-content">
+                <h3>🧮 ماشین حساب مهندسی</h3>
+                <div class="input-group">
+                    <label>عبارت ریاضی</label>
+                    <input type="text" id="calc-expr" placeholder="مثال: (2+3)*4">
+                </div>
+                <button onclick="calcExpression()">محاسبه</button>
+                <div class="result" id="calc-result">نتیجه: ---</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function calcRebar() {
+            let d = parseFloat(document.getElementById('rebar-diameter').value);
+            let l = parseFloat(document.getElementById('rebar-length').value);
+            let count = parseFloat(document.getElementById('rebar-count').value);
+            
+            if (isNaN(d) || isNaN(l)) {
+                document.getElementById('rebar-result').innerHTML = '❌ لطفا مقادیر معتبر وارد کن!';
+                return;
+            }
+            
+            let area = Math.PI * Math.pow(d/1000, 2) / 4;
+            let weightOne = area * l * 7850;
+            let totalWeight = weightOne * count;
+            
+            document.getElementById('rebar-result').innerHTML = 
+                `📏 وزن کل: ${totalWeight.toFixed(2)} kg (${(totalWeight/1000).toFixed(3)} تن)`;
+        }
+
+        function calcConcrete() {
+            let l = parseFloat(document.getElementById('concrete-length').value);
+            let w = parseFloat(document.getElementById('concrete-width').value);
+            let h = parseFloat(document.getElementById('concrete-height').value);
+            
+            if (isNaN(l) || isNaN(w) || isNaN(h)) {
+                document.getElementById('concrete-result').innerHTML = '❌ لطفا مقادیر معتبر وارد کن!';
+                return;
+            }
+            
+            let volume = l * w * h;
+            let trucks = Math.ceil(volume / 6);
+            
+            document.getElementById('concrete-result').innerHTML = 
+                `🏗 حجم: ${volume.toFixed(2)} m³ (${trucks} دستگاه تراک میکسر)`;
+        }
+
+        function calcBeam() {
+            let span = parseFloat(document.getElementById('beam-span').value);
+            let width = parseFloat(document.getElementById('beam-width').value);
+            let height = parseFloat(document.getElementById('beam-height').value);
+            
+            if (isNaN(span) || isNaN(width) || isNaN(height)) {
+                document.getElementById('beam-result').innerHTML = '❌ لطفا مقادیر معتبر وارد کن!';
+                return;
+            }
+            
+            let volume = (width/100) * (height/100) * span;
+            let deadLoad = volume * 2500;
+            
+            document.getElementById('beam-result').innerHTML = 
+                `📐 بار مرده: ${deadLoad.toFixed(2)} kg (${(deadLoad/1000).toFixed(2)} تن)`;
+        }
+
+        function calcExpression() {
+            let expr = document.getElementById('calc-expr').value;
+            try {
+                let result = eval(expr);
+                document.getElementById('calc-result').innerHTML = `🧮 نتیجه: ${expr} = ${result}`;
+            } catch(e) {
+                document.getElementById('calc-result').innerHTML = '❌ عبارت نامعتبر!';
+            }
+        }
+    </script>
+</body>
+</html>
