@@ -12,7 +12,7 @@
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
             min-height: 100vh;
             padding: 20px;
         }
@@ -21,386 +21,592 @@
             margin: 0 auto;
         }
         .card {
-            background: white;
-            border-radius: 28px;
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 32px;
+            padding: 24px;
             margin-bottom: 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         .header {
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.3);
         }
         .header h1 {
-            color: white;
-            font-size: 28px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
         }
-        .header p {
+        .menu-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            opacity: 0.9;
+            border: none;
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            font-size: 28px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        .menu-btn:active {
+            transform: scale(0.92);
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+        }
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .header-title span {
+            font-size: 32px;
         }
         .tab-buttons {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             margin-bottom: 25px;
             flex-wrap: wrap;
         }
         .tab-btn {
             flex: 1;
-            background: #e2e8f0;
+            background: #e8edf5;
             color: #1e293b;
             border: none;
-            padding: 12px 8px;
-            border-radius: 16px;
+            padding: 14px 10px;
+            border-radius: 18px;
             font-size: 14px;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.25s ease;
+            min-width: 65px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
         .tab-btn.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.45);
+            transform: translateY(-2px);
+        }
+        .tab-btn:active {
+            transform: scale(0.95);
         }
         .tab-content {
             display: none;
+            animation: fadeIn 0.3s ease;
         }
         .tab-content.active {
             display: block;
         }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
         .input-group {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
         .input-group label {
             display: block;
-            margin-bottom: 6px;
-            color: #334155;
-            font-weight: bold;
+            margin-bottom: 8px;
+            color: #1e293b;
+            font-weight: 700;
+            font-size: 15px;
         }
         .input-group input {
             width: 100%;
-            padding: 12px;
+            padding: 14px 16px;
             border: 2px solid #e2e8f0;
-            border-radius: 14px;
+            border-radius: 16px;
             font-size: 16px;
-            transition: 0.2s;
+            transition: all 0.3s ease;
+            background: #f8fafc;
         }
         .input-group input:focus {
             border-color: #667eea;
             outline: none;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+            background: white;
         }
-        button {
-            background: #667eea;
+        .btn-calculate {
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 14px;
-            font-size: 16px;
+            padding: 16px 24px;
+            border-radius: 18px;
+            font-size: 17px;
             font-weight: bold;
             cursor: pointer;
             width: 100%;
-            transition: 0.2s;
+            transition: all 0.25s ease;
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.35);
         }
-        button:active {
-            transform: scale(0.97);
+        .btn-calculate:active {
+            transform: scale(0.95);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.25);
         }
         .result {
-            background: #f1f5f9;
-            padding: 15px;
-            border-radius: 16px;
-            margin-top: 18px;
+            background: linear-gradient(135deg, #f1f5f9, #e8edf5);
+            padding: 18px;
+            border-radius: 18px;
+            margin-top: 20px;
             text-align: center;
-            font-size: 18px;
+            font-size: 19px;
             font-weight: bold;
             color: #0f172a;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
-
-        /* استایل ماشین حساب حرفه‌ای */
         .calc-display {
             background: #0f172a;
             color: #38bdf8;
             font-size: 2rem;
-            font-family: monospace;
+            font-family: 'Courier New', monospace;
             text-align: right;
-            padding: 18px;
-            border-radius: 20px;
-            margin-bottom: 18px;
-            min-height: 85px;
+            padding: 20px 22px;
+            border-radius: 22px;
+            margin-bottom: 20px;
+            min-height: 90px;
             word-wrap: break-word;
             border: 1px solid #334155;
+            box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.3);
         }
         .calc-buttons {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
+            gap: 12px;
         }
         .calc-btn {
-            background: #334155;
+            background: #1e293b;
             color: white;
             border: none;
-            padding: 16px 0;
-            border-radius: 18px;
-            font-size: 1.3rem;
+            padding: 18px 0;
+            border-radius: 20px;
+            font-size: 1.4rem;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.05s linear;
+            transition: all 0.08s linear;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         .calc-btn:active {
-            transform: scale(0.94);
-            background: #475569;
+            transform: scale(0.90);
+            background: #334155;
         }
         .calc-op {
-            background: #f59e0b;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
             color: #0f172a;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
         }
         .calc-equal {
-            background: #10b981;
+            background: linear-gradient(135deg, #10b981, #059669);
             grid-column: span 2;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
         }
         .calc-clear {
-            background: #ef4444;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
         }
         .calc-back {
-            background: #64748b;
+            background: #475569;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         .calc-sci {
-            background: #8b5cf6;
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
             font-size: 1rem;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
         }
         .zero {
             grid-column: span 2;
         }
+
+        /* ===== منوی کشویی ===== */
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 999;
+        }
+        .menu-overlay.open {
+            display: block;
+        }
+        .menu-panel {
+            position: fixed;
+            top: 0;
+            right: -340px;
+            width: 320px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 35px 25px;
+            box-shadow: -10px 0 50px rgba(0, 0, 0, 0.3);
+            overflow-y: auto;
+        }
+        .menu-panel.open {
+            right: 0;
+        }
+        .menu-panel .close-btn {
+            background: transparent;
+            color: #1e293b;
+            font-size: 34px;
+            border: none;
+            text-align: left;
+            width: auto;
+            padding: 0;
+            margin-bottom: 30px;
+            box-shadow: none;
+            cursor: pointer;
+        }
+        .menu-panel .close-btn:active {
+            transform: scale(0.9);
+        }
+        .menu-panel .menu-item {
+            display: block;
+            background: linear-gradient(135deg, #f1f5f9, #e8edf5);
+            padding: 20px 22px;
+            border-radius: 20px;
+            margin-bottom: 14px;
+            text-decoration: none;
+            color: #1e293b;
+            font-weight: 700;
+            font-size: 18px;
+            transition: all 0.25s ease;
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+        .menu-panel .menu-item:active {
+            transform: scale(0.95);
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        .menu-panel .menu-item .icon {
+            margin-left: 14px;
+        }
+        .menu-panel h2 {
+            color: #1e293b;
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="header">
-        <h1>🏗 CivilMate AI</h1>
-        <p>اپلیکیشن تخصصی مهندسی عمران</p>
+
+    <!-- ===== منوی کشویی ===== -->
+    <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+    <div class="menu-panel" id="menuPanel">
+        <button class="close-btn" onclick="toggleMenu()">✕</button>
+        <h2>📋 منوی ابزارها</h2>
+        <button class="menu-item" onclick="openMenuTab('convert')">
+            <span class="icon">🔄</span> تبدیل واحد
+        </button>
+        <button class="menu-item" onclick="openMenuTab('table')">
+            <span class="icon">📊</span> ساخت جدول
+        </button>
+        <button class="menu-item" onclick="openMenuTab('report')">
+            <span class="icon">📄</span> گزارش کارگاهی
+        </button>
     </div>
 
-    <div class="card">
-        <div class="tab-buttons">
-            <button class="tab-btn active" onclick="showTab('rebar')">📏 میلگرد</button>
-            <button class="tab-btn" onclick="showTab('concrete')">🏗 بتن</button>
-            <button class="tab-btn" onclick="showTab('beam')">📐 تیرآهن</button>
-            <button class="tab-btn" onclick="showTab('calc')">🧮 ماشین حساب</button>
-        </div>
-
-        <!-- تب میلگرد (همان قبلی) -->
-        <div id="rebar-tab" class="tab-content active">
-            <h3>📏 محاسبه وزن میلگرد</h3>
-            <div class="input-group">
-                <label>قطر (میلی‌متر)</label>
-                <input type="number" id="rebar-diameter" placeholder="مثال: 14">
+    <div class="container">
+        <div class="card">
+            <!-- ===== هدر با لوگوی منو ===== -->
+            <div class="header">
+                <div class="header-title">
+                    <span>🏗</span>
+                    <h1>CivilMate AI</h1>
+                </div>
+                <button class="menu-btn" onclick="toggleMenu()">☰</button>
             </div>
-            <div class="input-group">
-                <label>طول (متر)</label>
-                <input type="number" id="rebar-length" placeholder="مثال: 12">
+
+            <!-- ===== تب‌ها ===== -->
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="showTab('rebar')">📏 میلگرد</button>
+                <button class="tab-btn" onclick="showTab('concrete')">🏗 بتن</button>
+                <button class="tab-btn" onclick="showTab('beam')">📐 تیرآهن</button>
+                <button class="tab-btn" onclick="showTab('calc')">🧮 ماشین حساب</button>
             </div>
-            <div class="input-group">
-                <label>تعداد</label>
-                <input type="number" id="rebar-count" placeholder="مثال: 5" value="1">
+
+            <!-- تب میلگرد -->
+            <div id="rebar-tab" class="tab-content active">
+                <h3 style="color:#1e293b; margin-bottom:18px;">📏 محاسبه وزن میلگرد</h3>
+                <div class="input-group">
+                    <label>قطر (میلی‌متر)</label>
+                    <input type="number" id="rebar-diameter" placeholder="مثال: 14">
+                </div>
+                <div class="input-group">
+                    <label>طول (متر)</label>
+                    <input type="number" id="rebar-length" placeholder="مثال: 12">
+                </div>
+                <div class="input-group">
+                    <label>تعداد</label>
+                    <input type="number" id="rebar-count" placeholder="مثال: 5" value="1">
+                </div>
+                <button class="btn-calculate" onclick="calcRebar()">محاسبه</button>
+                <div class="result" id="rebar-result">وزن: --- kg</div>
             </div>
-            <button onclick="calcRebar()">محاسبه</button>
-            <div class="result" id="rebar-result">وزن: --- kg</div>
-        </div>
 
-        <!-- تب بتن (همان قبلی) -->
-        <div id="concrete-tab" class="tab-content">
-            <h3>🏗 محاسبه حجم بتن</h3>
-            <div class="input-group">
-                <label>طول (متر)</label>
-                <input type="number" id="concrete-length" placeholder="مثال: 5">
+            <!-- تب بتن -->
+            <div id="concrete-tab" class="tab-content">
+                <h3 style="color:#1e293b; margin-bottom:18px;">🏗 محاسبه حجم بتن</h3>
+                <div class="input-group">
+                    <label>طول (متر)</label>
+                    <input type="number" id="concrete-length" placeholder="مثال: 5">
+                </div>
+                <div class="input-group">
+                    <label>عرض (متر)</label>
+                    <input type="number" id="concrete-width" placeholder="مثال: 4">
+                </div>
+                <div class="input-group">
+                    <label>ارتفاع (متر)</label>
+                    <input type="number" id="concrete-height" placeholder="مثال: 0.3">
+                </div>
+                <button class="btn-calculate" onclick="calcConcrete()">محاسبه</button>
+                <div class="result" id="concrete-result">حجم: --- m³</div>
             </div>
-            <div class="input-group">
-                <label>عرض (متر)</label>
-                <input type="number" id="concrete-width" placeholder="مثال: 4">
+
+            <!-- تب تیرآهن -->
+            <div id="beam-tab" class="tab-content">
+                <h3 style="color:#1e293b; margin-bottom:18px;">📐 محاسبه بار تیرآهن</h3>
+                <div class="input-group">
+                    <label>دهانه (متر)</label>
+                    <input type="number" id="beam-span" placeholder="مثال: 6">
+                </div>
+                <div class="input-group">
+                    <label>عرض مقطع (سانتی‌متر)</label>
+                    <input type="number" id="beam-width" placeholder="مثال: 30">
+                </div>
+                <div class="input-group">
+                    <label>ارتفاع مقطع (سانتی‌متر)</label>
+                    <input type="number" id="beam-height" placeholder="مثال: 50">
+                </div>
+                <button class="btn-calculate" onclick="calcBeam()">محاسبه</button>
+                <div class="result" id="beam-result">بار مرده: --- kg</div>
             </div>
-            <div class="input-group">
-                <label>ارتفاع (متر)</label>
-                <input type="number" id="concrete-height" placeholder="مثال: 0.3">
-            </div>
-            <button onclick="calcConcrete()">محاسبه</button>
-            <div class="result" id="concrete-result">حجم: --- m³</div>
-        </div>
 
-        <!-- تب تیرآهن (همان قبلی) -->
-        <div id="beam-tab" class="tab-content">
-            <h3>📐 محاسبه بار تیرآهن</h3>
-            <div class="input-group">
-                <label>دهانه (متر)</label>
-                <input type="number" id="beam-span" placeholder="مثال: 6">
-            </div>
-            <div class="input-group">
-                <label>عرض مقطع (سانتی‌متر)</label>
-                <input type="number" id="beam-width" placeholder="مثال: 30">
-            </div>
-            <div class="input-group">
-                <label>ارتفاع مقطع (سانتی‌متر)</label>
-                <input type="number" id="beam-height" placeholder="مثال: 50">
-            </div>
-            <button onclick="calcBeam()">محاسبه</button>
-            <div class="result" id="beam-result">بار مرده: --- kg</div>
-        </div>
+            <!-- تب ماشین حساب -->
+            <div id="calc-tab" class="tab-content">
+                <h3 style="color:#1e293b; margin-bottom:18px;">🧮 ماشین حساب مهندسی</h3>
+                <div class="calc-display" id="calc-display">0</div>
+                <div class="calc-buttons">
+                    <button class="calc-btn calc-clear" onclick="calcClear()">C</button>
+                    <button class="calc-btn calc-back" onclick="calcBack()">⌫</button>
+                    <button class="calc-btn calc-sci" onclick="calcAppend('(')">(</button>
+                    <button class="calc-btn calc-sci" onclick="calcAppend(')')">)</button>
 
-        <!-- تب ماشین حساب فوق حرفه‌ای (جدید) -->
-        <div id="calc-tab" class="tab-content">
-            <h3>🧮 ماشین حساب مهندسی</h3>
-            <div class="calc-display" id="calc-display">0</div>
-            <div class="calc-buttons">
-                <button class="calc-btn calc-clear" onclick="calcClear()">C</button>
-                <button class="calc-btn calc-back" onclick="calcBack()">⌫</button>
-                <button class="calc-btn calc-sci" onclick="calcAppend('(')">(</button>
-                <button class="calc-btn calc-sci" onclick="calcAppend(')')">)</button>
+                    <button class="calc-btn" onclick="calcAppend('7')">7</button>
+                    <button class="calc-btn" onclick="calcAppend('8')">8</button>
+                    <button class="calc-btn" onclick="calcAppend('9')">9</button>
+                    <button class="calc-btn calc-op" onclick="calcAppend('/')">÷</button>
 
-                <button class="calc-btn" onclick="calcAppend('7')">7</button>
-                <button class="calc-btn" onclick="calcAppend('8')">8</button>
-                <button class="calc-btn" onclick="calcAppend('9')">9</button>
-                <button class="calc-btn calc-op" onclick="calcAppend('/')">÷</button>
+                    <button class="calc-btn" onclick="calcAppend('4')">4</button>
+                    <button class="calc-btn" onclick="calcAppend('5')">5</button>
+                    <button class="calc-btn" onclick="calcAppend('6')">6</button>
+                    <button class="calc-btn calc-op" onclick="calcAppend('*')">×</button>
 
-                <button class="calc-btn" onclick="calcAppend('4')">4</button>
-                <button class="calc-btn" onclick="calcAppend('5')">5</button>
-                <button class="calc-btn" onclick="calcAppend('6')">6</button>
-                <button class="calc-btn calc-op" onclick="calcAppend('*')">×</button>
+                    <button class="calc-btn" onclick="calcAppend('1')">1</button>
+                    <button class="calc-btn" onclick="calcAppend('2')">2</button>
+                    <button class="calc-btn" onclick="calcAppend('3')">3</button>
+                    <button class="calc-btn calc-op" onclick="calcAppend('-')">-</button>
 
-                <button class="calc-btn" onclick="calcAppend('1')">1</button>
-                <button class="calc-btn" onclick="calcAppend('2')">2</button>
-                <button class="calc-btn" onclick="calcAppend('3')">3</button>
-                <button class="calc-btn calc-op" onclick="calcAppend('-')">-</button>
+                    <button class="calc-btn zero" onclick="calcAppend('0')">0</button>
+                    <button class="calc-btn" onclick="calcAppend('.')">.</button>
+                    <button class="calc-btn calc-op" onclick="calcAppend('+')">+</button>
 
-                <button class="calc-btn zero" onclick="calcAppend('0')">0</button>
-                <button class="calc-btn" onclick="calcAppend('.')">.</button>
-                <button class="calc-btn calc-op" onclick="calcAppend('+')">+</button>
+                    <button class="calc-btn calc-sci" onclick="calcAppend('Math.sqrt(')">√</button>
+                    <button class="calc-btn calc-sci" onclick="calcAppend('Math.sin(')">sin</button>
+                    <button class="calc-btn calc-sci" onclick="calcAppend('Math.cos(')">cos</button>
+                    <button class="calc-btn calc-sci" onclick="calcAppend('Math.tan(')">tan</button>
 
-                <button class="calc-btn calc-sci" onclick="calcAppend('Math.sqrt(')">√</button>
-                <button class="calc-btn calc-sci" onclick="calcAppend('Math.sin(')">sin</button>
-                <button class="calc-btn calc-sci" onclick="calcAppend('Math.cos(')">cos</button>
-                <button class="calc-btn calc-sci" onclick="calcAppend('Math.tan(')">tan</button>
-
-                <button class="calc-btn calc-sci" onclick="calcAppend('**')">^</button>
-                <button class="calc-btn calc-sci" onclick="calcAppend('Math.PI')">π</button>
-                <button class="calc-btn calc-equal" onclick="calcResult()">=</button>
-                <button class="calc-btn calc-sci" onclick="calcAppend('Math.log(')">log</button>
+                    <button class="calc-btn calc-sci" onclick="calcAppend('**')">^</button>
+                    <button class="calc-btn calc-sci" onclick="calcAppend('Math.PI')">π</button>
+                    <button class="calc-btn calc-equal" onclick="calcResult()">=</button>
+                    <button class="calc-btn calc-sci" onclick="calcAppend('Math.log(')">log</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-    // ========== توابع تب‌ها ==========
-    function showTab(tabName) {
-        document.querySelectorAll('.tab-content').forEach(tab => {
-            tab.classList.remove('active');
-        });
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        document.getElementById(tabName + '-tab').classList.add('active');
-        event.target.classList.add('active');
-    }
-
-    // ========== میلگرد ==========
-    function calcRebar() {
-        let d = parseFloat(document.getElementById('rebar-diameter').value);
-        let l = parseFloat(document.getElementById('rebar-length').value);
-        let count = parseFloat(document.getElementById('rebar-count').value);
-        if (isNaN(d) || isNaN(l)) {
-            document.getElementById('rebar-result').innerHTML = '❌ لطفا مقادیر معتبر وارد کن!';
-            return;
+    <script>
+        // ========== منو ==========
+        function toggleMenu() {
+            var overlay = document.getElementById('menuOverlay');
+            var panel = document.getElementById('menuPanel');
+            overlay.classList.toggle('open');
+            panel.classList.toggle('open');
         }
-        let area = Math.PI * Math.pow(d/1000, 2) / 4;
-        let weightOne = area * l * 7850;
-        let totalWeight = weightOne * (count || 1);
-        document.getElementById('rebar-result').innerHTML = `📏 وزن کل: ${totalWeight.toFixed(2)} kg (${(totalWeight/1000).toFixed(3)} تن)`;
-    }
 
-    // ========== بتن ==========
-    function calcConcrete() {
-        let l = parseFloat(document.getElementById('concrete-length').value);
-        let w = parseFloat(document.getElementById('concrete-width').value);
-        let h = parseFloat(document.getElementById('concrete-height').value);
-        if (isNaN(l) || isNaN(w) || isNaN(h)) {
-            document.getElementById('concrete-result').innerHTML = '❌ لطفا مقادیر معتبر وارد کن!';
-            return;
-        }
-        let volume = l * w * h;
-        let trucks = Math.ceil(volume / 6);
-        document.getElementById('concrete-result').innerHTML = `🏗 حجم: ${volume.toFixed(2)} m³ (${trucks} دستگاه تراک میکسر)`;
-    }
+        function openMenuTab(tabName) {
+            toggleMenu();
+            var tabs = document.querySelectorAll('.tab-content');
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            var btns = document.querySelectorAll('.tab-btn');
+            for (var i = 0; i < btns.length; i++) {
+                btns[i].classList.remove('active');
+            }
 
-    // ========== تیرآهن ==========
-    function calcBeam() {
-        let span = parseFloat(document.getElementById('beam-span').value);
-        let width = parseFloat(document.getElementById('beam-width').value);
-        let height = parseFloat(document.getElementById('beam-height').value);
-        if (isNaN(span) || isNaN(width) || isNaN(height)) {
-            document.getElementById('beam-result').innerHTML = '❌ لطفا مقادیر معتبر وارد کن!';
-            return;
-        }
-        let volume = (width/100) * (height/100) * span;
-        let deadLoad = volume * 2500;
-        document.getElementById('beam-result').innerHTML = `📐 بار مرده: ${deadLoad.toFixed(2)} kg (${(deadLoad/1000).toFixed(2)} تن)`;
-    }
+            document.getElementById('calc-tab').classList.add('active');
+            document.querySelectorAll('.tab-btn')[3].classList.add('active');
 
-    // ========== ماشین حساب حرفه‌ای ==========
-    let calcDisplay = document.getElementById('calc-display');
-    let currentExpr = '';
-
-    function updateCalcDisplay() {
-        calcDisplay.innerText = currentExpr === '' ? '0' : currentExpr;
-    }
-
-    function calcAppend(value) {
-        if (currentExpr === '0' && value !== '.') {
-            currentExpr = value;
-        } else {
-            currentExpr += value;
-        }
-        updateCalcDisplay();
-    }
-
-    function calcClear() {
-        currentExpr = '';
-        updateCalcDisplay();
-    }
-
-    function calcBack() {
-        currentExpr = currentExpr.slice(0, -1);
-        updateCalcDisplay();
-    }
-
-    function calcResult() {
-        try {
-            let expr = currentExpr.replace(/÷/g, '/').replace(/×/g, '*');
-            let result = eval(expr);
-            if (isNaN(result) || !isFinite(result)) throw new Error('Invalid');
-            currentExpr = String(result);
-            updateCalcDisplay();
-        } catch(e) {
-            currentExpr = '❌ خطا';
-            updateCalcDisplay();
-            setTimeout(() => {
-                currentExpr = '';
-                updateCalcDisplay();
-            }, 1200);
-        }
-    }
-
-    // پشتیبانی از کیبورد
-    document.addEventListener('keydown', (e) => {
-        const key = e.key;
-        if (document.getElementById('calc-tab').classList.contains('active')) {
-            if ((key >= '0' && key <= '9') || key === '.' || key === '+' || key === '-' || key === '*' || key === '/') {
-                calcAppend(key);
-            } else if (key === 'Enter') {
-                calcResult();
-            } else if (key === 'Backspace') {
-                calcBack();
-            } else if (key === 'Escape') {
-                calcClear();
+            if (tabName === 'convert') {
+                document.getElementById('calc-display').innerText = '🔄 تبدیل واحد: 10 m to ft';
+                currentExpr = '10 m to ft';
+            } else if (tabName === 'table') {
+                document.getElementById('calc-display').innerText = '📊 ساخت جدول: نام,مقدار';
+                currentExpr = 'نام,مقدار';
+            } else if (tabName === 'report') {
+                document.getElementById('calc-display').innerText = '📄 گزارش کارگاهی: نام پروژه';
+                currentExpr = 'نام پروژه';
             }
         }
-    });
-</script>
+
+        // ========== تب‌ها ==========
+        function showTab(tabName) {
+            var tabs = document.querySelectorAll('.tab-content');
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            var btns = document.querySelectorAll('.tab-btn');
+            for (var i = 0; i < btns.length; i++) {
+                btns[i].classList.remove('active');
+            }
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // ========== میلگرد ==========
+        function calcRebar() {
+            var d = parseFloat(document.getElementById('rebar-diameter').value);
+            var l = parseFloat(document.getElementById('rebar-length').value);
+            var count = parseFloat(document.getElementById('rebar-count').value);
+            if (isNaN(d) || isNaN(l)) {
+                document.getElementById('rebar-result').innerHTML = '❌ لطفا مقادیر معتبر وارد کن!';
+                return;
+            }
+            var area = Math.PI * Math.pow(d / 1000, 2) / 4;
+            var weightOne = area * l * 7850;
+            var totalWeight = weightOne * (count || 1);
+            document.getElementById('rebar-result').innerHTML = '📏 وزن کل: ' + totalWeight.toFixed(2) + ' kg (' + (totalWeight / 1000)
+                .toFixed(3) + ' تن)';
+        }
+
+        // ========== بتن ==========
+        function calcConcrete() {
+            var l = parseFloat(document.getElementById('concrete-length').value);
+            var w = parseFloat(document.getElementById('concrete-width').value);
+            var h = parseFloat(document.getElementById('concrete-height').value);
+            if (isNaN(l) || isNaN(w) || isNaN(h)) {
+                document.getElementById('concrete-result').innerHTML = '❌ لطفا مقادیر معتبر وارد کن!';
+                return;
+            }
+            var volume = l * w * h;
+            var trucks = Math.ceil(volume / 6);
+            document.getElementById('concrete-result').innerHTML = '🏗 حجم: ' + volume.toFixed(2) + ' m³ (' + trucks +
+                ' دستگاه تراک میکسر)';
+        }
+
+        // ========== تیرآهن ==========
+        function calcBeam() {
+            var span = parseFloat(document.getElementById('beam-span').value);
+            var width = parseFloat(document.getElementById('beam-width').value);
+            var height = parseFloat(document.getElementById('beam-height').value);
+            if (isNaN(span) || isNaN(width) || isNaN(height)) {
+                document.getElementById('beam-result').innerHTML = '❌ لطفا مقادیر معتبر وارد کن!';
+                return;
+            }
+            var volume = (width / 100) * (height / 100) * span;
+            var deadLoad = volume * 2500;
+            document.getElementById('beam-result').innerHTML = '📐 بار مرده: ' + deadLoad.toFixed(2) + ' kg (' + (deadLoad / 1000)
+                .toFixed(2) + ' تن)';
+        }
+
+        // ========== ماشین حساب ==========
+        var calcDisplay = document.getElementById('calc-display');
+        var currentExpr = '';
+
+        function updateCalcDisplay() {
+            calcDisplay.innerText = currentExpr === '' ? '0' : currentExpr;
+        }
+
+        function calcAppend(value) {
+            if (currentExpr === '0' && value !== '.') {
+                currentExpr = value;
+            } else {
+                currentExpr += value;
+            }
+            updateCalcDisplay();
+        }
+
+        function calcClear() {
+            currentExpr = '';
+            updateCalcDisplay();
+        }
+
+        function calcBack() {
+            currentExpr = currentExpr.slice(0, -1);
+            updateCalcDisplay();
+        }
+
+        function calcResult() {
+            try {
+                var expr = currentExpr.replace(/÷/g, '/').replace(/×/g, '*');
+                var result = eval(expr);
+                if (isNaN(result) || !isFinite(result)) throw new Error('Invalid');
+                currentExpr = String(result);
+                updateCalcDisplay();
+            } catch (e) {
+                currentExpr = '❌ خطا';
+                updateCalcDisplay();
+                setTimeout(function() {
+                    currentExpr = '';
+                    updateCalcDisplay();
+                }, 1200);
+            }
+        }
+
+        // پشتیبانی از کیبورد
+        document.addEventListener('keydown', function(e) {
+            var key = e.key;
+            if (document.getElementById('calc-tab').classList.contains('active')) {
+                if ((key >= '0' && key <= '9') || key === '.' || key === '+' || key === '-' || key === '*' || key === '/') {
+                    calcAppend(key);
+                } else if (key === 'Enter') {
+                    calcResult();
+                } else if (key === 'Backspace') {
+                    calcBack();
+                } else if (key === 'Escape') {
+                    calcClear();
+                }
+            }
+        });
+    </script>
 </body>
 </html>
