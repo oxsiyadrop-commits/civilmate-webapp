@@ -4,105 +4,198 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>CivilMate AI - اپلیکیشن مهندسی عمران</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;800;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            min-height: 100vh;
-            padding: 20px;
+
+        :root {
+            --blueprint-1: #0a1826;
+            --blueprint-2: #10233a;
+            --blueprint-line: rgba(120, 170, 220, 0.09);
+            --steel-1: #2b3a4a;
+            --steel-2: #4a5d70;
+            --steel-light: #7d93a6;
+            --concrete-1: #e7e2d6;
+            --concrete-2: #cfc8b6;
+            --concrete-3: #b8b09b;
+            --copper-1: #d98a4e;
+            --copper-2: #a75d2c;
+            --safety-1: #ff7a30;
+            --safety-2: #e85d1f;
+            --ink: #16212c;
+            --led: #ff9b3d;
         }
+
+        body {
+            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
+            background:
+                repeating-linear-gradient(0deg, var(--blueprint-line) 0px, var(--blueprint-line) 1px, transparent 1px, transparent 34px),
+                repeating-linear-gradient(90deg, var(--blueprint-line) 0px, var(--blueprint-line) 1px, transparent 1px, transparent 34px),
+                radial-gradient(ellipse at 30% 0%, #16314d 0%, transparent 55%),
+                linear-gradient(160deg, var(--blueprint-1), var(--blueprint-2) 60%, #081420);
+            min-height: 100vh;
+            padding: 22px 16px 60px;
+        }
+
         .container {
-            max-width: 550px;
+            max-width: 560px;
             margin: 0 auto;
         }
+
+        /* ===== پلاک اصلی (کارت) با ظاهر فلزی حکاکی‌شده ===== */
         .card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 32px;
-            padding: 24px;
+            position: relative;
+            background: linear-gradient(160deg, var(--concrete-1), var(--concrete-2) 55%, var(--concrete-3));
+            border-radius: 26px;
+            padding: 26px 22px 24px;
             margin-bottom: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow:
+                0 2px 0 rgba(255,255,255,0.6) inset,
+                0 -6px 14px rgba(0,0,0,0.12) inset,
+                0 24px 45px rgba(0,0,0,0.55),
+                0 3px 0 #8f8770;
+            border: 1px solid rgba(255,255,255,0.5);
         }
+
+        .rivet {
+            position: absolute;
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 30%, #eae6da, #a49c85 55%, #6f6852 100%);
+            box-shadow: 0 2px 3px rgba(0,0,0,0.45), 0 -1px 1px rgba(255,255,255,0.5) inset;
+        }
+        .rivet.tl { top: 12px; left: 12px; }
+        .rivet.tr { top: 12px; right: 12px; }
+        .rivet.bl { bottom: 12px; left: 12px; }
+        .rivet.br { bottom: 12px; right: 12px; }
+
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid rgba(102, 126, 234, 0.3);
-        }
-        .header h1 {
-            font-size: 24px;
-            font-weight: bold;
-            color: #667eea;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            display: inline-block;
-        }
-        .menu-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            width: 52px;
-            height: 52px;
-            border-radius: 16px;
-            font-size: 28px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
-        .menu-btn:active {
-            transform: scale(0.92);
-            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+            margin-bottom: 22px;
+            padding: 4px 6px 16px;
+            border-bottom: 3px solid rgba(43,58,74,0.25);
         }
         .header-title {
             display: flex;
             align-items: center;
             gap: 12px;
         }
-        .header-title span {
-            font-size: 32px;
+        .header-title span.emoji-badge {
+            font-size: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: linear-gradient(155deg, var(--steel-light), var(--steel-1) 70%);
+            box-shadow:
+                0 2px 0 rgba(255,255,255,0.35) inset,
+                0 -4px 8px rgba(0,0,0,0.35) inset,
+                0 8px 16px rgba(0,0,0,0.4);
+            border: 1px solid rgba(0,0,0,0.25);
         }
+        .header h1 {
+            font-family: 'Oswald', 'Vazirmatn', sans-serif;
+            font-size: 23px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--ink);
+            text-shadow:
+                0 1px 0 rgba(255,255,255,0.75),
+                0 -1px 1px rgba(0,0,0,0.15);
+        }
+        .header h1 small {
+            display: block;
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: var(--copper-2);
+            margin-top: 2px;
+        }
+
+        .menu-btn {
+            background: linear-gradient(155deg, var(--steel-light), var(--steel-1) 75%);
+            color: #eef2f5;
+            border: none;
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow:
+                0 2px 0 rgba(255,255,255,0.35) inset,
+                0 -5px 9px rgba(0,0,0,0.4) inset,
+                0 10px 18px rgba(0,0,0,0.45),
+                0 4px 0 #1c2732;
+            border: 1px solid rgba(0,0,0,0.3);
+            transition: all 0.12s ease;
+        }
+        .menu-btn:active {
+            transform: translateY(3px);
+            box-shadow:
+                0 2px 0 rgba(255,255,255,0.2) inset,
+                0 -2px 5px rgba(0,0,0,0.4) inset,
+                0 3px 6px rgba(0,0,0,0.4),
+                0 1px 0 #1c2732;
+        }
+
+        /* ===== تب‌ها به شکل کلیدهای فلزی روی تابلوی کنترل ===== */
         .tab-buttons {
             display: flex;
             gap: 10px;
-            margin-bottom: 25px;
+            margin-bottom: 24px;
             flex-wrap: wrap;
         }
         .tab-btn {
             flex: 1;
-            background: #e8edf5;
-            color: #1e293b;
+            background: linear-gradient(160deg, #f4f1e8, #d9d2c0);
+            color: var(--ink);
             border: none;
-            padding: 14px 10px;
-            border-radius: 18px;
-            font-size: 14px;
-            font-weight: bold;
+            padding: 14px 8px;
+            border-radius: 16px;
+            font-size: 13.5px;
+            font-weight: 700;
+            font-family: 'Vazirmatn', sans-serif;
             cursor: pointer;
-            transition: all 0.25s ease;
             min-width: 65px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.8) inset,
+                0 -3px 5px rgba(0,0,0,0.08) inset,
+                0 6px 10px rgba(0,0,0,0.28),
+                0 3px 0 #a49b83;
+            border: 1px solid rgba(255,255,255,0.5);
+            transition: all 0.12s ease;
         }
         .tab-btn.active {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.45);
-            transform: translateY(-2px);
+            background: linear-gradient(160deg, var(--safety-1), var(--safety-2) 80%);
+            color: #fff5ec;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.35);
+            transform: translateY(2px);
+            box-shadow:
+                0 -2px 5px rgba(0,0,0,0.35) inset,
+                0 1px 0 rgba(255,255,255,0.25) inset,
+                0 2px 4px rgba(0,0,0,0.3),
+                0 1px 0 #a03e0d;
+            border: 1px solid rgba(0,0,0,0.2);
         }
         .tab-btn:active {
-            transform: scale(0.95);
+            transform: translateY(2px) scale(0.97);
         }
+
         .tab-content {
             display: none;
             animation: fadeIn 0.3s ease;
@@ -111,132 +204,236 @@
             display: block;
         }
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
+
+        .tab-content h3 {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            color: var(--ink);
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed rgba(43,58,74,0.25);
+        }
+
+        /* ===== ورودی‌ها مانند شیارهای حکاکی‌شده در بتن ===== */
         .input-group {
             margin-bottom: 18px;
         }
         .input-group label {
             display: block;
             margin-bottom: 8px;
-            color: #1e293b;
+            color: var(--ink);
             font-weight: 700;
-            font-size: 15px;
+            font-size: 14.5px;
         }
         .input-group input {
             width: 100%;
             padding: 14px 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 16px;
+            border: none;
+            border-radius: 14px;
             font-size: 16px;
-            transition: all 0.3s ease;
-            background: #f8fafc;
+            font-family: 'Vazirmatn', sans-serif;
+            color: var(--ink);
+            background: linear-gradient(160deg, #dcd6c6, #efece2);
+            box-shadow:
+                0 3px 6px rgba(0,0,0,0.22) inset,
+                0 -1px 0 rgba(255,255,255,0.7) inset,
+                0 1px 0 rgba(255,255,255,0.5);
+            transition: all 0.25s ease;
         }
         .input-group input:focus {
-            border-color: #667eea;
             outline: none;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
-            background: white;
+            background: linear-gradient(160deg, #e9e4d6, #f6f4ec);
+            box-shadow:
+                0 3px 8px rgba(0,0,0,0.25) inset,
+                0 0 0 3px rgba(255,122,48,0.35);
         }
+        .input-group input::placeholder {
+            color: #8d8878;
+        }
+
+        /* ===== دکمه محاسبه: کلید فشاری بزرگ فلزی-مسی ===== */
         .btn-calculate {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
+            background: linear-gradient(160deg, var(--copper-1), var(--copper-2) 85%);
+            color: #fff6ec;
             border: none;
             padding: 16px 24px;
-            border-radius: 18px;
-            font-size: 17px;
-            font-weight: bold;
+            border-radius: 16px;
+            font-size: 16.5px;
+            font-weight: 700;
+            font-family: 'Vazirmatn', sans-serif;
             cursor: pointer;
             width: 100%;
-            transition: all 0.25s ease;
-            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.35);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            box-shadow:
+                0 2px 0 rgba(255,255,255,0.3) inset,
+                0 -6px 10px rgba(0,0,0,0.28) inset,
+                0 10px 20px rgba(167,93,44,0.45),
+                0 5px 0 #7a4419;
+            border: 1px solid rgba(0,0,0,0.15);
+            transition: all 0.1s ease;
         }
         .btn-calculate:active {
-            transform: scale(0.95);
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.25);
+            transform: translateY(4px);
+            box-shadow:
+                0 -2px 4px rgba(0,0,0,0.25) inset,
+                0 2px 4px rgba(167,93,44,0.35),
+                0 1px 0 #7a4419;
         }
+
+        /* ===== نتیجه: صفحه نمایش LED روی پلاک ===== */
         .result {
-            background: linear-gradient(135deg, #f1f5f9, #e8edf5);
+            background: linear-gradient(160deg, #142333, #0b1826);
             padding: 18px;
-            border-radius: 18px;
+            border-radius: 16px;
             margin-top: 20px;
             text-align: center;
-            font-size: 19px;
-            font-weight: bold;
-            color: #0f172a;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            font-size: 17.5px;
+            font-weight: 700;
+            font-family: 'Vazirmatn', sans-serif;
+            color: var(--led);
+            text-shadow: 0 0 10px rgba(255,155,61,0.65), 0 0 2px rgba(255,155,61,0.8);
+            box-shadow:
+                0 4px 10px rgba(0,0,0,0.55) inset,
+                0 1px 0 rgba(255,255,255,0.08),
+                0 6px 14px rgba(0,0,0,0.35);
+            border: 1px solid rgba(0,0,0,0.4);
+            letter-spacing: 0.3px;
         }
+
+        /* ===== ماشین حساب: دستگاه فیزیکی با قاب فلزی ===== */
         .calc-display {
-            background: #0f172a;
-            color: #38bdf8;
+            background: linear-gradient(160deg, #0d1a26, #060d16);
+            color: #38e0ff;
             font-size: 2rem;
             font-family: 'Courier New', monospace;
             text-align: right;
             padding: 20px 22px;
-            border-radius: 22px;
-            margin-bottom: 20px;
+            border-radius: 16px;
+            margin-bottom: 22px;
             min-height: 90px;
             word-wrap: break-word;
-            border: 1px solid #334155;
-            box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.3);
+            box-shadow:
+                0 5px 14px rgba(0,0,0,0.6) inset,
+                0 0 18px rgba(56,224,255,0.12) inset,
+                0 2px 0 rgba(255,255,255,0.05),
+                0 10px 20px rgba(0,0,0,0.4);
+            border: 3px solid #1b2733;
+            text-shadow: 0 0 8px rgba(56,224,255,0.55);
         }
         .calc-buttons {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
+            gap: 11px;
         }
         .calc-btn {
-            background: #1e293b;
-            color: white;
+            background: linear-gradient(160deg, #3c4b5c, #232f3b);
+            color: #f2f5f8;
             border: none;
             padding: 18px 0;
-            border-radius: 20px;
-            font-size: 1.4rem;
-            font-weight: bold;
+            border-radius: 14px;
+            font-size: 1.35rem;
+            font-weight: 700;
+            font-family: 'Vazirmatn', 'Courier New', sans-serif;
             cursor: pointer;
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.18) inset,
+                0 -4px 7px rgba(0,0,0,0.35) inset,
+                0 6px 10px rgba(0,0,0,0.4),
+                0 3px 0 #131a22;
+            border: 1px solid rgba(0,0,0,0.3);
             transition: all 0.08s linear;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         .calc-btn:active {
-            transform: scale(0.90);
-            background: #334155;
+            transform: translateY(3px);
+            box-shadow:
+                0 -1px 3px rgba(0,0,0,0.35) inset,
+                0 1px 3px rgba(0,0,0,0.4),
+                0 1px 0 #131a22;
         }
         .calc-op {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: #0f172a;
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+            background: linear-gradient(160deg, #ffb15c, var(--safety-2));
+            color: #2a1503;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.25);
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.4) inset,
+                0 -4px 7px rgba(0,0,0,0.3) inset,
+                0 6px 12px rgba(232,93,31,0.45),
+                0 3px 0 #a03e0d;
+        }
+        .calc-op:active {
+            box-shadow:
+                0 -1px 3px rgba(0,0,0,0.3) inset,
+                0 1px 3px rgba(232,93,31,0.4),
+                0 1px 0 #a03e0d;
         }
         .calc-equal {
-            background: linear-gradient(135deg, #10b981, #059669);
+            background: linear-gradient(160deg, #3ddc9a, #17a06a);
+            color: #042417;
             grid-column: span 2;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.4) inset,
+                0 -4px 7px rgba(0,0,0,0.28) inset,
+                0 6px 14px rgba(23,160,106,0.45),
+                0 3px 0 #0c6b48;
+        }
+        .calc-equal:active {
+            box-shadow:
+                0 -1px 3px rgba(0,0,0,0.28) inset,
+                0 1px 3px rgba(23,160,106,0.4),
+                0 1px 0 #0c6b48;
         }
         .calc-clear {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+            background: linear-gradient(160deg, #ff6b6b, #cc3333);
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.35) inset,
+                0 -4px 7px rgba(0,0,0,0.3) inset,
+                0 6px 12px rgba(204,51,51,0.45),
+                0 3px 0 #8f1f1f;
+        }
+        .calc-clear:active {
+            box-shadow:
+                0 -1px 3px rgba(0,0,0,0.3) inset,
+                0 1px 3px rgba(204,51,51,0.4),
+                0 1px 0 #8f1f1f;
         }
         .calc-back {
-            background: #475569;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(160deg, #6b7d8f, #4a5b6c);
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.25) inset,
+                0 -4px 7px rgba(0,0,0,0.3) inset,
+                0 6px 10px rgba(0,0,0,0.35),
+                0 3px 0 #2c3742;
+        }
+        .calc-back:active {
+            box-shadow:
+                0 -1px 3px rgba(0,0,0,0.3) inset,
+                0 1px 3px rgba(0,0,0,0.35),
+                0 1px 0 #2c3742;
         }
         .calc-sci {
-            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-            font-size: 1rem;
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+            background: linear-gradient(160deg, #b18aff, #7c4fdb);
+            font-size: 0.95rem;
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.35) inset,
+                0 -4px 7px rgba(0,0,0,0.3) inset,
+                0 6px 12px rgba(124,79,219,0.4),
+                0 3px 0 #4f2e9c;
+        }
+        .calc-sci:active {
+            box-shadow:
+                0 -1px 3px rgba(0,0,0,0.3) inset,
+                0 1px 3px rgba(124,79,219,0.35),
+                0 1px 0 #4f2e9c;
         }
         .zero {
             grid-column: span 2;
         }
 
-        /* ===== منوی کشویی ===== */
+        /* ===== منوی کشویی: کشوی فلزی روی نقشه ===== */
         .menu-overlay {
             display: none;
             position: fixed;
@@ -244,8 +441,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
+            background: rgba(4, 8, 14, 0.65);
+            backdrop-filter: blur(6px);
             z-index: 999;
         }
         .menu-overlay.open {
@@ -257,62 +454,82 @@
             right: -340px;
             width: 320px;
             height: 100%;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
+            background: linear-gradient(165deg, var(--concrete-1), var(--concrete-3));
             z-index: 1000;
             transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 35px 25px;
-            box-shadow: -10px 0 50px rgba(0, 0, 0, 0.3);
+            padding: 35px 24px;
+            box-shadow: -14px 0 40px rgba(0,0,0,0.55);
             overflow-y: auto;
+            border-left: 3px solid rgba(0,0,0,0.15);
         }
         .menu-panel.open {
             right: 0;
         }
         .menu-panel .close-btn {
-            background: transparent;
-            color: #1e293b;
-            font-size: 34px;
+            background: linear-gradient(160deg, var(--steel-light), var(--steel-1));
+            color: #eef2f5;
+            font-size: 22px;
             border: none;
-            text-align: left;
-            width: auto;
-            padding: 0;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
             margin-bottom: 30px;
-            box-shadow: none;
             cursor: pointer;
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.3) inset,
+                0 -3px 6px rgba(0,0,0,0.35) inset,
+                0 6px 12px rgba(0,0,0,0.4),
+                0 3px 0 #1c2732;
         }
         .menu-panel .close-btn:active {
-            transform: scale(0.9);
+            transform: translateY(2px);
+            box-shadow:
+                0 -1px 3px rgba(0,0,0,0.35) inset,
+                0 2px 4px rgba(0,0,0,0.4);
+        }
+        .menu-panel h2 {
+            font-family: 'Oswald', sans-serif;
+            color: var(--ink);
+            margin-bottom: 25px;
+            font-size: 21px;
+            letter-spacing: 0.3px;
+            border-bottom: 2px dashed rgba(43,58,74,0.25);
+            padding-bottom: 12px;
         }
         .menu-panel .menu-item {
-            display: block;
-            background: linear-gradient(135deg, #f1f5f9, #e8edf5);
-            padding: 20px 22px;
-            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(160deg, #f4f1e8, #d9d2c0);
+            padding: 18px 20px;
+            border-radius: 16px;
             margin-bottom: 14px;
-            text-decoration: none;
-            color: #1e293b;
+            color: var(--ink);
             font-weight: 700;
-            font-size: 18px;
-            transition: all 0.25s ease;
-            border: none;
+            font-size: 16.5px;
+            font-family: 'Vazirmatn', sans-serif;
+            border: 1px solid rgba(255,255,255,0.5);
             width: 100%;
-            text-align: left;
+            text-align: right;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.8) inset,
+                0 -3px 5px rgba(0,0,0,0.08) inset,
+                0 6px 12px rgba(0,0,0,0.25),
+                0 3px 0 #a49b83;
+            transition: all 0.12s ease;
         }
         .menu-panel .menu-item:active {
-            transform: scale(0.95);
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            transform: translateY(3px);
+            background: linear-gradient(160deg, var(--safety-1), var(--safety-2));
+            color: #fff5ec;
+            box-shadow:
+                0 -2px 5px rgba(0,0,0,0.3) inset,
+                0 1px 3px rgba(0,0,0,0.3),
+                0 1px 0 #a03e0d;
         }
         .menu-panel .menu-item .icon {
             margin-left: 14px;
-        }
-        .menu-panel h2 {
-            color: #1e293b;
-            margin-bottom: 25px;
-            font-size: 24px;
+            font-size: 20px;
         }
     </style>
 </head>
@@ -336,11 +553,16 @@
 
     <div class="container">
         <div class="card">
+            <span class="rivet tl"></span>
+            <span class="rivet tr"></span>
+            <span class="rivet bl"></span>
+            <span class="rivet br"></span>
+
             <!-- ===== هدر با لوگوی منو ===== -->
             <div class="header">
                 <div class="header-title">
-                    <span>🏗</span>
-                    <h1>CivilMate AI</h1>
+                    <span class="emoji-badge">🏗</span>
+                    <h1>CivilMate AI<small>دستیار محاسباتی عمران</small></h1>
                 </div>
                 <button class="menu-btn" onclick="toggleMenu()">☰</button>
             </div>
@@ -355,7 +577,7 @@
 
             <!-- تب میلگرد -->
             <div id="rebar-tab" class="tab-content active">
-                <h3 style="color:#1e293b; margin-bottom:18px;">📏 محاسبه وزن میلگرد</h3>
+                <h3>📏 محاسبه وزن میلگرد</h3>
                 <div class="input-group">
                     <label>قطر (میلی‌متر)</label>
                     <input type="number" id="rebar-diameter" placeholder="مثال: 14">
@@ -374,7 +596,7 @@
 
             <!-- تب بتن -->
             <div id="concrete-tab" class="tab-content">
-                <h3 style="color:#1e293b; margin-bottom:18px;">🏗 محاسبه حجم بتن</h3>
+                <h3>🏗 محاسبه حجم بتن</h3>
                 <div class="input-group">
                     <label>طول (متر)</label>
                     <input type="number" id="concrete-length" placeholder="مثال: 5">
@@ -393,7 +615,7 @@
 
             <!-- تب تیرآهن -->
             <div id="beam-tab" class="tab-content">
-                <h3 style="color:#1e293b; margin-bottom:18px;">📐 محاسبه بار تیرآهن</h3>
+                <h3>📐 محاسبه بار تیرآهن</h3>
                 <div class="input-group">
                     <label>دهانه (متر)</label>
                     <input type="number" id="beam-span" placeholder="مثال: 6">
@@ -412,7 +634,7 @@
 
             <!-- تب ماشین حساب -->
             <div id="calc-tab" class="tab-content">
-                <h3 style="color:#1e293b; margin-bottom:18px;">🧮 ماشین حساب مهندسی</h3>
+                <h3>🧮 ماشین حساب مهندسی</h3>
                 <div class="calc-display" id="calc-display">0</div>
                 <div class="calc-buttons">
                     <button class="calc-btn calc-clear" onclick="calcClear()">C</button>
