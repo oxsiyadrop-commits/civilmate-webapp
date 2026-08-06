@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>CivilMate AI - اپلیکیشن مهندسی عمران</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;800;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --blueprint-1: #0a1826;
+            --blueprint-2: #10233a;
+            --blueprint-line: rgba(120, 170, 220, 0.09);
+            --steel-1: #2b3a4a;
+            --steel-2: #4a5d70;
+            --steel-light: #7d93a6;
+            --concrete-1: #e7e2d6;
+            --concrete-2: #cfc8b6;
+            --concrete-3: #b8b09b;
+            --copper-1: #d98a4e;
+            --copper-2: #a75d2c;
+            --safety-1: #ff7a30;
+            --safety-2: #e85d1f;
+            --ink: #16212c;
+            --led: #ff9b3d;
+        }
+
+        body {
+            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
+            background:
+                repeating-linear-gradient(0deg, var(--blueprint-line) 0px, var(--blueprint-line) 1px, transparent 1px, transparent 34px),
+                repeating-linear-gradient(90deg, var(--blueprint-line) 0px, var(--blueprint-line) 1px, transparent 1px, transparent 34px),
+                radial-gradient(ellipse at 30% 0%, #16314d 0%, transparent 55%),
+                linear-gradient(160deg, var(--blueprint-1), var(--blueprint-2) 60%, #081420);
+            min-height: 100vh;
+            padding: 22px 16px 60px;
+        }
+
+        .container {
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        /* ===== پلاک اصلی (کارت) با ظاهر فلزی حکاکی‌شده ===== */
+        .card {
+            position: relative;
+            background: linear-gradient(160deg, var(--concrete-1), var(--concrete-2) 55%, var(--concrete-3));
+            border-radius: 26px;
+            padding: 26px 22px 24px;
+            margin-bottom: 20px;
+            box-shadow:
+                0 2px 0 rgba(255,255,255,0.6) inset,
+                0 -6px 14px rgba(0,0,0,0.12) inset,
+                0 24px 45px rgba(0,0,0,0.55),
+                0 3px 0 #8f8770;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .rivet {
+            position: absolute;
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 30%, #eae6da, #a49c85 55%, #6f6852 100%);
+            box-shadow: 0 2px 3px rgba(0,0,0,0.45), 0 -1px 1px rgba(255,255,255,0.5) inset;
+        }
+        .rivet.tl { top: 12px; left: 12px; }
+        .rivet.tr { top: 12px; right: 12px; }
+        .rivet.bl { bottom: 12px; left: 12px; }
+        .rivet.br { bottom: 12px; right: 12px; }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+            padding: 4px 6px 16px;
+            border-bottom: 3px solid rgba(43,58,74,0.25);
+        }
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .header-title span.emoji-badge {
+            font-size: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: linear-gradient(155deg, var(--steel-light), var(--steel-1) 70%);
+            box-shadow:
+                0 2px 0 rgba(255,255,255,0.35) inset,
+                0 -4px 8px rgba(0,0,0,0.35) inset,
+                0 8px 16px rgba(0,0,0,0.4);
+            border: 1px solid rgba(0,0,0,0.25);
+        }
+        .header h1 {
+            font-family: 'Oswald', 'Vazirmatn', sans-serif;
+            font-size: 23px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--ink);
+            text-shadow:
+                0 1px 0 rgba(255,255,255,0.75),
+                0 -1px 1px rgba(0,0,0,0.15);
+        }
+        .header h1 small {
+            display: block;
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: var(--copper-2);
+            margin-top: 2px;
+        }
+
+        .menu-btn {
+            background: linear-gradient(155deg, var(--steel-light), var(--steel-1) 75%);
+            color: #eef2f5;
+            border: none;
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow:
+                0 2px 0 rgba(255,255,255,0.35) inset,
+                0 -5px 9px rgba(0,0,0,0.4) inset,
+                0 10px 18px rgba(0,0,0,0.45),
+                0 4px 0 #1c2732;
+            border: 1px solid rgba(0,0,0,0.3);
+            transition: all 0.12s ease;
+        }
+        .menu-btn:active {
+            transform: translateY(3px);
+            box-shadow:
+                0 2px 0 rgba(255,255,255,0.2) inset,
+                0 -2px 5px rgba(0,0,0,0.4) inset,
+                0 3px 6px rgba(0,0,0,0.4),
+                0 1px 0 #1c2732;
+        }
+
+        /* ===== تب‌ها به شکل کلیدهای فلزی روی تابلوی کنترل ===== */
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            flex: 1;
+            background: linear-gradient(160deg, #f4f1e8, #d9d2c0);
+            color: var(--ink);
+            border: none;
+            padding: 14px 8px;
+            border-radius: 16px;
+            font-size: 13.5px;
+            font-weight: 700;
+            font-family: 'Vazirmatn', sans-serif;
+            cursor: pointer;
+            min-width: 65px;
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.8) inset,
+                0 -3px 5px rgba(0,0,0,0.08) inset,
+                0 6px 10px rgba(0,0,0,0.28),
+                0 3px 0 #a49b83;
+            border: 1px solid rgba(255,255,255,0.5);
+            transition: all 0.12s ease;
+        }
+        .tab-btn.active {
+            background: linear-gradient(160deg, var(--safety-1), var(--safety-2) 80%);
+            color: #fff5ec;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.35);
+            transform: translateY(2px);
+            box-shadow:
+                0 -2px 5px rgba(0,0,0,0.35) inset,
+                0 1px 0 rgba(255,255,255,0.25) inset,
+                0 2px 4px rgba(0,0,0,0.3),
+                0 1px 0 #a03e0d;
+            border: 1px solid rgba(0,0,0,0.2);
+        }
+        .tab-btn:active {
+            transform: translateY(2px) scale(0.97);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tab-content h3 {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            color: var(--ink);
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed rgba(43,58,74,0.25);
+        }
+
+        /* ===== ورودی‌ها مانند شیارهای حکاکی‌شده در بتن ===== */
+        .input-group {
+            margin-bottom: 18px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--ink);
+            font-weight: 700;
+            font-size: 14.5px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-family: 'Vazirmatn', sans-serif;
+            color: var(--ink);
+            background: linear-gradient(160deg, #dcd6c6, #efece2);
+            box-shadow:
+                0 3px 6px rgba(0,0,0,0.22) inset,
+                0 -1px 0 rgba(255,255,255,0.7) inset,
+                0 1px 0 rgba(255,255,255,0.5);
+            transition: all 0.25s ease;
+        }
+        .input-group input:focus {
+            outline: none;
+            background: linear-gradient(160deg, #e9e4d6, #f6f4ec);
+            box-shadow:
+                0 3px 8px rgba(0,0,0,0.25) inset,
+                0 0 0 3px rgba(255,122,48,0.35);
+        }
+        .input-group input::placeholder {
+            color: #8d8878;
+        }
+
+        /* ===== دکمه محاسبه: کلید فشاری بزرگ فلزی-مسی ===== */
+        .btn-calculate {
+            background: linear-gradient(160deg, var(--copper-1), var(--copper-2) 85%);
+            color: #fff6ec;
+            border: none;
+            padding: 16px 24px;
+            border-radius: 16px;
+            font-size: 16.5px;
+            font-weight: 700;
+            font-family: 'Vazirmatn', sans-serif;
+            cursor: pointer;
+            width: 100%;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            box-shadow:
+                0 2px 0 rgba(255,255,255,0.3) inset,
+                0 -6px 10px rgba(0,0,0,0.28) inset,
+                0 10px 20px rgba(167,93,44,0.45),
+                0 5px 0 #7a4419;
+            border: 1px solid rgba(0,0,0,0.15);
+            transition: all 0.1s ease;
+        }
+        .btn-calculate:active {
+            transform: translateY(4px);
+            box-shadow:
+                0 -2px 4px rgba(0,0,0,0.25) inset,
+                0 2px 4px rgba(167,93,44,0.35),
+                0 1px 0 #7a4419;
+        }
+
+        /* ===== نتیجه: صفحه نمایش LED روی پلاک ===== */
+        .result {
+            background: linear-gradient(160deg, #142333, #0b1826);
+            padding: 18px;
+            border-radius: 16px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 17.5px;
+            font-weight: 700;
+            font-family: 'Vazirmatn', sans-serif;
+            color: var(--led);
+            text-shadow: 0 0 10px rgba(255,155,61,0.65), 0 0 2px rgba(255,155,61,0.8);
+            box-shadow:
+                0 4px 10px rgba(0,0,0,0.55) inset,
+                0 1px 0 rgba(255,255,255,0.08),
+                0 6px 14px rgba(0,0,0,0.35);
+            border: 1px solid rgba(0,0,0,0.4);
+            letter-spacing: 0.3px;
+        }
+
+        /* ===== ماشین حساب: دستگاه فیزیکی با قاب فلزی ===== */
+        .calc-display {
+            background: linear-gradient(160deg, #0d1a26, #060d16);
+            color: #38e0ff;
+            font-size: 2rem;
+            font-family: 'Courier New', monospace;
+            text-align: right;
+            padding: 20px 22px;
+            border-radius: 16px;
+            margin-bottom: 22px;
+            min-height: 90px;
+            word-wrap: break-word;
+            box-shadow:
+                0 5px 14px rgba(0,0,0,0.6) inset,
+                0 0 18px rgba(56,224,255,0.12) inset,
+                0 2px 0 rgba(255,255,255,0.05),
+                0 10px 20px rgba(0,0,0,0.4);
+            border: 3px solid #1b2733;
+            text-shadow: 0 0 8px rgba(56,224,255,0.55);
+        }
+        .calc-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 11px;
+        }
+        .calc-btn {
+            background: linear-gradient(160deg, #3c4b5c, #232f3b);
+            color: #f2f5f8;
+            border: none;
+            padding: 18px 0;
+            border-radius: 14px;
+            font-size: 1.35rem;
+            font-weight: 700;
+            font-family: 'Vazirmatn', 'Courier New', sans-serif;
+            cursor: pointer;
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.18) inset,
+                0 -4px 7px rgba(0,0,0,0.35) inset,
+                0 6px 10px rgba(0,0,0,0.4),
+                0 3px 0 #131a22;
+            border: 1px solid rgba(0,0,0,0.3);
+            transition: all 0.08s linear;
+        }
+        .calc-btn:active {
+            transform: translateY(3px);
+            box-shadow:
+                0 -1px 3px rgba(0,0,0,0.35) inset,
+                0 1px 3px rgba(0,0,0,0.4),
+                0 1px 0 #131a22;
+        }
+        .calc-op {
+            background: linear-gradient(160deg, #ffb15c, var(--safety-2));
+            color: #2a1503;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.25);
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.4) inset,
+                0 -4px 7px rgba(0,0,0,0.3) inset,
+                0 6px 12px rgba(232,93,31,0.45),
+                0 3px 0 #a03e0d;
+        }
+        .calc-op:active {
+            box-shadow:
+                0 -1px 3px rgba(0,0,0,0.3) inset,
+                0 1px 3px rgba(232,93,31,0.4),
+                0 1px 0 #a03e0d;
+        }
+        .calc-equal {
+            background: linear-gradient(160deg, #3ddc9a, #17a06a);
+            color: #042417;
+            grid-column: span 2;
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.4) inset,
+                0 -4px 7px rgba(0,0,0,0.28) inset,
+                0 6px 14px rgba(23,160,106,0.45),
+                0 3px 0 #0c6b48;
+        }
+        .calc-equal:active {
+            box-shadow:
+                0 -1px 3px rgba(0,0,0,0.28) inset,
+                0 1px 3px rgba(23,160,106,0.4),
+                0 1px 0 #0c6b48;
+        }
+        .calc-clear {
+            background: linear-gradient(160deg, #ff6b6b, #cc3333);
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.35) inset,
+                0 -4px 7px rgba(0,0,0,0.3) inset,
+                0 6px 12px rgba(204,51,51,0.45),
+                0 3px 0 #8f1f1f;
+        }
+        .calc-clear:active {
+            box-shadow:
+                0 -1px 3px rgba(0,0,0,0.3) inset,
+                0 1px 3px rgba(204,51,51,0.4),
+                0 1px 0 #8f1f1f;
+        }
+        .calc-back {
+            background: linear-gradient(160deg, #6b7d8f, #4a5b6c);
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.25) inset,
+                0 -4px 7px rgba(0,0,0,0.3) inset,
+                0 6px 10px rgba(0,0,0,0.35),
+                0 3px 0 #2c3742;
+        }
+        .calc-back:active {
+            box-shadow:
+                0 -1px 3px rgba(0,0,0,0.3) inset,
+                0 1px 3px rgba(0,0,0,0.35),
+                0 1px 0 #2c3742;
+        }
+        .calc-sci {
+            background: linear-gradient(160deg, #b18aff, #7c4fdb);
+            font-size: 0.95rem;
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.35) inset,
+                0 -4px 7px rgba(0,0,0,0.3) inset,
+                0 6px 12px rgba(124,79,219,0.4),
+                0 3px 0 #4f2e9c;
+        }
+        .calc-sci:active {
+            box-shadow:
+                0 -1px 3px rgba(0,0,0,0.3) inset,
+                0 1px 3px rgba(124,79,219,0.35),
+                0 1px 0 #4f2e9c;
+        }
+        .zero {
+            grid-column: span 2;
+        }
+
+        /* ===== منوی کشویی: کشوی فلزی روی نقشه ===== */
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(4, 8, 14, 0.65);
+            backdrop-filter: blur(6px);
+            z-index: 999;
+        }
+        .menu-overlay.open {
+            display: block;
+        }
+        .menu-panel {
+            position: fixed;
+            top: 0;
+            right: -340px;
+            width: 320px;
+            height: 100%;
+            background: linear-gradient(165deg, var(--concrete-1), var(--concrete-3));
+            z-index: 1000;
+            transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 35px 24px;
+            box-shadow: -14px 0 40px rgba(0,0,0,0.55);
+            overflow-y: auto;
+            border-left: 3px solid rgba(0,0,0,0.15);
+        }
+        .menu-panel.open {
+            right: 0;
+        }
+        .menu-panel .close-btn {
+            background: linear-gradient(160deg, var(--steel-light), var(--steel-1));
+            color: #eef2f5;
+            font-size: 22px;
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            cursor: pointer;
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.3) inset,
+                0 -3px 6px rgba(0,0,0,0.35) inset,
+                0 6px 12px rgba(0,0,0,0.4),
+                0 3px 0 #1c2732;
+        }
+        .menu-panel .close-btn:active {
+            transform: translateY(2px);
+            box-shadow:
+                0 -1px 3px rgba(0,0,0,0.35) inset,
+                0 2px 4px rgba(0,0,0,0.4);
+        }
+        .menu-panel h2 {
+            font-family: 'Oswald', sans-serif;
+            color: var(--ink);
+            margin-bottom: 25px;
+            font-size: 21px;
+            letter-spacing: 0.3px;
+            border-bottom: 2px dashed rgba(43,58,74,0.25);
+            padding-bottom: 12px;
+        }
+        .menu-panel .menu-item {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(160deg, #f4f1e8, #d9d2c0);
+            padding: 18px 20px;
+            border-radius: 16px;
+            margin-bottom: 14px;
+            color: var(--ink);
+            font-weight: 700;
+            font-size: 16.5px;
+            font-family: 'Vazirmatn', sans-serif;
+            border: 1px solid rgba(255,255,255,0.5);
+            width: 100%;
+            text-align: right;
+            cursor: pointer;
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.8) inset,
+                0 -3px 5px rgba(0,0,0,0.08) inset,
+                0 6px 12px rgba(0,0,0,0.25),
+                0 3px 0 #a49b83;
+            transition: all 0.12s ease;
+        }
+        .menu-panel .menu-item:active {
+            transform: translateY(3px);
+            background: linear-gradient(160deg, var(--safety-1), var(--safety-2));
+            color: #fff5ec;
+            box-shadow:
+                0 -2px 5px rgba(0,0,0,0.3) inset,
+                0 1px 3px rgba(0,0,0,0.3),
+                0 1px 0 #a03e0d;
+        }
+        .menu-panel .menu-item .icon {
+            margin-left: 14px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== منوی کشویی ===== -->
+    <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+    <div class="menu-panel" id="menuPanel">
+        <button class="close-btn" onclick="toggleMenu()">✕</button>
+        <h2>📋 منوی ابزارها</h2>
+        <button class="menu-item" onclick="openMenuTab('convert')">
+            <span class="icon">🔄</span> تبدیل واحد
+        </button>
+        <button class="menu-item" onclick="openMenuTab('table')">
+            <span class="icon">📊</span> ساخت جدول
+        </button>
+        <button class="menu-item" onclick="openMenuTab('report')">
+            <span class="icon">📄</span> گزارش کارگاهی
+        </button>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <span class="rivet tl"></span>
+            <span class="rivet tr"></span>
+            <span class="rivet bl"></span>
+            <span class="rivet br"></span>
+
+            <!-- ===== هدر با لوگوی منو ===== -->
+            <div class="header">
+                <div class="header-title">
+                    <span class="emoji-badge">🏗</span>
+                    <h1>CivilMate AI<small>دستیار محاسباتی عمران</small></h1>
+                </div>
+                <button class="menu-btn" onclick="toggleMenu()">☰</button>
+            </div>
+
+            <!-- ===== تب‌ها ===== -->
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="showTab('rebar')">📏 میلگرد</button>
+                <button class="tab-btn" onclick="showTab('concrete')">🏗 بتن</button>
+                <button class="tab-btn" onclick="showTab('beam')">📐 تیرآهن</button>
+                <button class="tab-btn" onclick="showTab('calc')">🧮 ماشین حساب</button>
+            </div>
+
+            <!-- تب میلگرد -->
+            <div id="rebar-tab" class="tab-content active">
+                <h3>📏 محاسبه وزن میلگرد</h3>
+                <div class="input-group">
+                    <label>قطر (میلی‌متر)</label>
+                    <input type="number" id="rebar-diameter" placeholder="مثال: 14">
+                </div>
+                <div class="input-group">
+                    <label>طول (متر)</label>
+                    <input type="number" id="rebar-length" placeholder="مثال: 12">
+                </div>
+                <div class="input-group">
+                    <label>تعداد</label>
+                    <input type="number" id="rebar-count" placeholder="مثال: 5" value="1">
+                </div>
+                <button class="btn-calculate" onclick="calcRebar()">محاسبه</button>
+                <div class="result" id="rebar-result">وزن: --- kg</div>
+            </div>
+
+            <!-- تب بتن -->
+            <div id="concrete-tab" class="tab-content">
+                <h3>🏗 محاسبه حجم بتن</h3>
+                <div class="input-group">
+                    <label>طول (متر)</label>
+                    <input type="number" id="concrete-length" placeholder="مثال: 5">
+                </div>
+                <div class="input-group">
+                    <label>عرض (متر)</label>
+                    <input type="number" id="concrete-width" placeholder="مثال: 4">
+                </div>
+                <div class="input-group">
+                    <label>ارتفاع (متر)</label>
+                    <input type="number" id="concrete-height" placeholder="مثال: 0.3">
+                </div>
+                <button class="btn-calculate" onclick="calcConcrete()">محاسبه</button>
+                <div class="result" id="concrete-result">حجم: --- m³</div>
+            </div>
+
+            <!-- تب تیرآهن -->
+            <div id="beam-tab" class="tab-content">
+                <h3>📐 محاسبه بار تیرآهن</h3>
+                <div class="input-group">
+                    <label>دهانه (متر)</label>
+                    <input type="number" id="beam-span" placeholder="مثال: 6">
+                </div>
+                <div class="input-group">
+                    <label>عرض مقطع (سانتی‌متر)</label>
+                    <input type="number" id="beam-width" placeholder="مثال: 30">
+                </div>
+                <div class="input-group">
+                    <label>ارتفاع مقطع (سانتی‌متر)</label>
+                    <input type="number" id="beam-height" placeholder="مثال: 50">
+                </div>
+                <button class="btn-calculate" onclick="calcBeam()">محاسبه</button>
+                <div class="result" id="beam-result">بار مرده: --- kg</div>
+            </div>
+
+            <!-- تب ماشین حساب -->
+            <div id="calc-tab" class="tab-content">
+                <h3>🧮 ماشین حساب مهندسی</h3>
+                <div class="calc-display" id="calc-display">0</div>
+                <div class="calc-buttons">
+                    <button class="calc-btn calc-clear" onclick="calcClear()">C</button>
+                    <button class="calc-btn calc-back" onclick="calcBack()">⌫</button>
+                    <button class="calc-btn calc-sci" onclick="calcAppend('(')">(</button>
+                    <button class="calc-btn calc-sci" onclick="calcAppend(')')">)</button>
+
+                    <button class="calc-btn" onclick="calcAppend('7')">7</button>
+                    <button class="calc-btn" onclick="calcAppend('8')">8</button>
+                    <button class="calc-btn" onclick="calcAppend('9')">9</button>
+                    <button class="calc-btn calc-op" onclick="calcAppend('/')">÷</button>
+
+                    <button class="calc-btn" onclick="calcAppend('4')">4</button>
+                    <button class="calc-btn" onclick="calcAppend('5')">5</button>
+                    <button class="calc-btn" onclick="calcAppend('6')">6</button>
+                    <button class="calc-btn calc-op" onclick="calcAppend('*')">×</button>
+
+                    <button class="calc-btn" onclick="calcAppend('1')">1</button>
+                    <button class="calc-btn" onclick="calcAppend('2')">2</button>
+                    <button class="calc-btn" onclick="calcAppend('3')">3</button>
+                    <button class="calc-btn calc-op" onclick="calcAppend('-')">-</button>
+
+                    <button class="calc-btn zero" onclick="calcAppend('0')">0</button>
+                    <button class="calc-btn" onclick="calcAppend('.')">.</button>
+                    <button class="calc-btn calc-op" onclick="calcAppend('+')">+</button>
+
+                    <button class="calc-btn calc-sci" onclick="calcAppend('Math.sqrt(')">√</button>
+                    <button class="calc-btn calc-sci" onclick="calcAppend('Math.sin(')">sin</button>
+                    <button class="calc-btn calc-sci" onclick="calcAppend('Math.cos(')">cos</button>
+                    <button class="calc-btn calc-sci" onclick="calcAppend('Math.tan(')">tan</button>
+
+                    <button class="calc-btn calc-sci" onclick="calcAppend('**')">^</button>
+                    <button class="calc-btn calc-sci" onclick="calcAppend('Math.PI')">π</button>
+                    <button class="calc-btn calc-equal" onclick="calcResult()">=</button>
+                    <button class="calc-btn calc-sci" onclick="calcAppend('Math.log(')">log</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== منو ==========
+        function toggleMenu() {
+            var overlay = document.getElementById('menuOverlay');
+            var panel = document.getElementById('menuPanel');
+            overlay.classList.toggle('open');
+            panel.classList.toggle('open');
+        }
+
+        function openMenuTab(tabName) {
+            toggleMenu();
+            var tabs = document.querySelectorAll('.tab-content');
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            var btns = document.querySelectorAll('.tab-btn');
+            for (var i = 0; i < btns.length; i++) {
+                btns[i].classList.remove('active');
+            }
+
+            document.getElementById('calc-tab').classList.add('active');
+            document.querySelectorAll('.tab-btn')[3].classList.add('active');
+
+            if (tabName === 'convert') {
+                document.getElementById('calc-display').innerText = '🔄 تبدیل واحد: 10 m to ft';
+                currentExpr = '10 m to ft';
+            } else if (tabName === 'table') {
+                document.getElementById('calc-display').innerText = '📊 ساخت جدول: نام,مقدار';
+                currentExpr = 'نام,مقدار';
+            } else if (tabName === 'report') {
+                document.getElementById('calc-display').innerText = '📄 گزارش کارگاهی: نام پروژه';
+                currentExpr = 'نام پروژه';
+            }
+        }
+
+        // ========== تب‌ها ==========
+        function showTab(tabName) {
+            var tabs = document.querySelectorAll('.tab-content');
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            var btns = document.querySelectorAll('.tab-btn');
+            for (var i = 0; i < btns.length; i++) {
+                btns[i].classList.remove('active');
+            }
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // ========== میلگرد ==========
+        function calcRebar() {
+            var d = parseFloat(document.getElementById('rebar-diameter').value);
+            var l = parseFloat(document.getElementById('rebar-length').value);
+            var count = parseFloat(document.getElementById('rebar-count').value);
+            if (isNaN(d) || isNaN(l)) {
+                document.getElementById('rebar-result').innerHTML = '❌ لطفا مقادیر معتبر وارد کن!';
+                return;
+            }
+            var area = Math.PI * Math.pow(d / 1000, 2) / 4;
+            var weightOne = area * l * 7850;
+            var totalWeight = weightOne * (count || 1);
+            document.getElementById('rebar-result').innerHTML = '📏 وزن کل: ' + totalWeight.toFixed(2) + ' kg (' + (totalWeight / 1000)
+                .toFixed(3) + ' تن)';
+        }
+
+        // ========== بتن ==========
+        function calcConcrete() {
+            var l = parseFloat(document.getElementById('concrete-length').value);
+            var w = parseFloat(document.getElementById('concrete-width').value);
+            var h = parseFloat(document.getElementById('concrete-height').value);
+            if (isNaN(l) || isNaN(w) || isNaN(h)) {
+                document.getElementById('concrete-result').innerHTML = '❌ لطفا مقادیر معتبر وارد کن!';
+                return;
+            }
+            var volume = l * w * h;
+            var trucks = Math.ceil(volume / 6);
+            document.getElementById('concrete-result').innerHTML = '🏗 حجم: ' + volume.toFixed(2) + ' m³ (' + trucks +
+                ' دستگاه تراک میکسر)';
+        }
+
+        // ========== تیرآهن ==========
+        function calcBeam() {
+            var span = parseFloat(document.getElementById('beam-span').value);
+            var width = parseFloat(document.getElementById('beam-width').value);
+            var height = parseFloat(document.getElementById('beam-height').value);
+            if (isNaN(span) || isNaN(width) || isNaN(height)) {
+                document.getElementById('beam-result').innerHTML = '❌ لطفا مقادیر معتبر وارد کن!';
+                return;
+            }
+            var volume = (width / 100) * (height / 100) * span;
+            var deadLoad = volume * 2500;
+            document.getElementById('beam-result').innerHTML = '📐 بار مرده: ' + deadLoad.toFixed(2) + ' kg (' + (deadLoad / 1000)
+                .toFixed(2) + ' تن)';
+        }
+
+        // ========== ماشین حساب ==========
+        var calcDisplay = document.getElementById('calc-display');
+        var currentExpr = '';
+
+        function updateCalcDisplay() {
+            calcDisplay.innerText = currentExpr === '' ? '0' : currentExpr;
+        }
+
+        function calcAppend(value) {
+            if (currentExpr === '0' && value !== '.') {
+                currentExpr = value;
+            } else {
+                currentExpr += value;
+            }
+            updateCalcDisplay();
+        }
+
+        function calcClear() {
+            currentExpr = '';
+            updateCalcDisplay();
+        }
+
+        function calcBack() {
+            currentExpr = currentExpr.slice(0, -1);
+            updateCalcDisplay();
+        }
+
+        function calcResult() {
+            try {
+                var expr = currentExpr.replace(/÷/g, '/').replace(/×/g, '*');
+                var result = eval(expr);
+                if (isNaN(result) || !isFinite(result)) throw new Error('Invalid');
+                currentExpr = String(result);
+                updateCalcDisplay();
+            } catch (e) {
+                currentExpr = '❌ خطا';
+                updateCalcDisplay();
+                setTimeout(function() {
+                    currentExpr = '';
+                    updateCalcDisplay();
+                }, 1200);
+            }
+        }
+
+        // پشتیبانی از کیبورد
+        document.addEventListener('keydown', function(e) {
+            var key = e.key;
+            if (document.getElementById('calc-tab').classList.contains('active')) {
+                if ((key >= '0' && key <= '9') || key === '.' || key === '+' || key === '-' || key === '*' || key === '/') {
+                    calcAppend(key);
+                } else if (key === 'Enter') {
+                    calcResult();
+                } else if (key === 'Backspace') {
+                    calcBack();
+                } else if (key === 'Escape') {
+                    calcClear();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
